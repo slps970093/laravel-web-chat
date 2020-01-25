@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/member', 'Member@index');
+
+Route::post('/member', 'Member@append');

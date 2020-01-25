@@ -5,6 +5,7 @@ namespace App\Repositories\Member;
 
 use App\Entities\Member\Member as MemberEntity;
 use App\Repositories\Member\Exceptions\SerialExist;
+use Illuminate\Support\Facades\DB;
 
 class Member
 {
@@ -28,11 +29,11 @@ class Member
     public function append($data, $serial)
     {
         $serialCount = $this->entity
-            ->select("count(*) as count")
+            ->select(DB::raw("count(*) as count"))
             ->where('serial', '=', $serial)
             ->value('count');
 
-        if ($serialCount >= 1) {
+        if (intval($serialCount) >= 1) {
             throw new SerialExist('會員序號已經存在');
         }
 
@@ -53,5 +54,10 @@ class Member
     public function getDataByPrimaryKey($primaryKey)
     {
         return $this->entity->find($primaryKey);
+    }
+
+    public function getList($page = 15)
+    {
+        return $this->entity->paginate($page);
     }
 }

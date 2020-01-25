@@ -13,9 +13,12 @@ class Member extends Model
 {
     protected $table = 'members';
 
-    protected $attributes = [
+
+    protected $fillable = [
         'serial',
         'account',
         'name'
     ];
+
+    public $timestamps = true;
 }
